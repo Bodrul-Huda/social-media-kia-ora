@@ -41,9 +41,11 @@ class User_profile(LoginRequiredMixin, ListView):
         context["user_profile"] = self.request.user
         return context
 
+from django.contrib.auth.hashers import make_password
+
 class User_update(UpdateView):
     model = User
-    form_class = UserUpdateForm  # Use the correct form
+    form_class = UserUpdateForm
     success_url = reverse_lazy('User_profile')
     template_name = 'signUp.html'
     pk_url_kwarg = 'pk'
@@ -53,7 +55,7 @@ class User_update(UpdateView):
         return get_object_or_404(User, pk=self.kwargs['pk'])
 
     def form_valid(self, form):
-        """Ensure username uniqueness excluding current user."""
+        """Ensure username uniqueness before saving."""
         user = form.save(commit=False)
 
         # Check if another user already has this username (case-insensitive)
@@ -63,9 +65,10 @@ class User_update(UpdateView):
             return self.form_invalid(form)
 
         user.save()
+
         messages.success(self.request, "Profile updated successfully! ✅")
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         messages.error(self.request, "Update failed. Please correct the errors below.")
         return super().form_invalid(form)
