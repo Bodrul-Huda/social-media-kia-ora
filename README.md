@@ -94,7 +94,7 @@ Alternatively, create a new user from the registration page.
 ## Entity Relationship Diagram (ERD)
 
 -The diagram below represents the database structure of this project.
-![Entity Relationship Diagram](static/images/erd.jpg)
+![Entity Relationship Diagram](erd.jpg)
 
 
 ## License
