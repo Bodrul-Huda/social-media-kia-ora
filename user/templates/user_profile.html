@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+ {% block content %}
+<div class="py-8">
+  <div class="flex space-x-4 justify-between items-center mt-4">
+  
+      <div>
+      <h3> Wellcome <span class='text-blue-600 font-semibold'>{{user.username | upper}}</span></h3>
+      <p> Email: <span class='text-blue-600 font-semibold'> {{user.email}}</span></p>
+      <p> Last seen: <span class='text-blue-600 '> {{user.last_login}}</span></p>
+      
+    </div>
+
+    <button
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+  >
+    <a href={%url "User_update" pk=user.id %}  class="px-3 py-2 rounded-md text-sm font-medium ">Edit Profile</a>
+  </button> </div>     
+  </div>
+  
+  <div class="mx-auto flex-col">
+    
+    {% include 'postCard.html' %}
+  </div>
+</div>
+
+{% endblock %} 
+
+
+{% block title %} Profile{% endblock %}

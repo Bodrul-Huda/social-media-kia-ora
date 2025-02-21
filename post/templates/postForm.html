@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if user.is_authenticated %} 
+
+<div class="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
+    <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">
+        {% if request.resolver_match.url_name == 'Post_update' %}  
+            Update Post 
+        {% else %} 
+            Create a New Post 
+        {% endif %}
+    </h3>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-4 mt-4" id="postForm">
+      {% csrf_token %}
+
+      <div class="space-y-4">
+        <!-- Content Field (Always Visible) -->
+        <div id="contentField">
+            <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700">Content</label>
+            <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="6"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none">{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+            {% if form.content.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ form.content.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Other Fields (Initially Hidden) -->
+        <div id="fullForm" style="display: none;">
+            <!-- Image Field -->
+            <div id="imageField" class="mt-4" style="{% if form.instance.image %}display: block;{% else %}display: none;{% endif %}">
+                <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700">Upload Image</label>
+                <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}" accept="image/*"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+            <!-- Video Field -->
+            <div id="videoField" class="mt-4" style="{% if form.instance.video %}display: block;{% else %}display: none;{% endif %}">
+                <label for="{{ form.video.id_for_label }}" class="block text-sm font-medium text-gray-700">Upload Video</label>
+                <input type="file" name="{{ form.video.name }}" id="{{ form.video.id_for_label }}" accept="video/*"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between items-center mt-6">
+        <a href="{% url 'home' %}" 
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
+            Cancel
+        </a>
+        <button type="submit" 
+            class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+            {% if request.resolver_match.url_name == 'Post_update' %}  Update {% else %} Create {% endif %}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- JavaScript to Read Query Parameter and Show Fields -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get("type");
+
+        // Detect if the page is an update form
+        const isUpdateForm = "{{ request.resolver_match.url_name }}" === "Post_update";
+
+        if (isUpdateForm) {
+            document.getElementById("contentField").style.display = "block"; // Always show content field
+            document.getElementById("fullForm").style.display = "block"; // Show image/video section
+            document.getElementById("imageField").style.display = "block"; // Show image field
+            document.getElementById("videoField").style.display = "block"; // Show video field
+        } else {
+            // Handle new post creation based on the type query parameter
+            if (type === "feeling") {
+                document.getElementById("contentField").style.display = "block";
+                document.getElementById("fullForm").style.display = "none"; 
+            } else if (type === "photo") {
+                document.getElementById("contentField").style.display = "block";
+                document.getElementById("fullForm").style.display = "block"; 
+                document.getElementById("imageField").style.display = "block";
+                document.getElementById("videoField").style.display = "none"; 
+            } else if (type === "video") {
+                document.getElementById("contentField").style.display = "block";
+                document.getElementById("fullForm").style.display = "block"; 
+                document.getElementById("imageField").style.display = "none";
+                document.getElementById("videoField").style.display = "block";
+            }
+        }
+    });
+</script>
+
+
+{% endif %}
+{% endblock %}
+
+
+{% block title %} {% if request.resolver_match.url_name == 'Post_update' %}  Update {% else %} Create {% endif %} {% endblock %}

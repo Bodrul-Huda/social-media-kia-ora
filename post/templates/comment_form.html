@@ -1,0 +1,18 @@
+<div >
+  <h2 class="text-2xl font-semibold mb-4">Comments</h2>
+
+  {% if user.is_authenticated %}
+  <form method="post" class="mb-6">
+      {% csrf_token %}
+      <div class="mb-4">
+          {{ comment_form.content }}
+      </div>
+      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          Submit Comment
+      </button>
+  </form>
+  {% else %}
+  <p class="text-gray-500">You must be <a href="{% url 'login' %}" class="text-blue-500">logged in</a> to post a comment.</p>
+  {% endif %}
+
+</div>

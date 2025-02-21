@@ -1,0 +1,11 @@
+{% for comment in comments %}
+<div class="border-t p-4 m-4">
+  <p class="font-semibold text-gray-800">{{ comment.author.username | title }}</p>
+  <p class="text-gray-700">{{ comment.content |lower| capfirst}}</p>
+  <p class="text-sm text-gray-500">
+    {{ comment.created_at|date:"F d, Y - H:i A" }}
+  </p>
+</div>
+{% empty %}
+<p class="text-gray-500">No comments yet. Be the first to comment!</p>
+{% endfor %}

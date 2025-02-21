@@ -1,0 +1,43 @@
+{% extends "layout.html" %} {% load static %} {% block content %}
+
+<div
+  class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-4 py-2"
+>
+  {% comment %}
+  <img
+    class="w-full h-64 object-cover"
+    src="{{ post.image.url }}"
+    alt="{{ post.title }}"
+  />
+  {% endcomment %}
+
+  <div class="p-6">
+    {% if post.video %}
+    <video controls class="w-full h-auto rounded-lg shadow-md">
+      <source src="{{ post.video.url }}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    {% elif post.image %}
+    <img
+      src="{{ post.image.url }}"
+      alt="Post Image"
+      class="w-full h-auto rounded-lg shadow-md"
+    />
+    {% endif %}
+
+    <p class="text-gray-700 leading-relaxed">{{ post.content }}</p>
+    <p class="text-gray-500 text-sm mt-4">
+      Published on: {{ post.created_at|date:"F d, Y" }}
+    </p>
+  </div>
+  
+  <div class="max-w-3xl mx-auto mt-2 bg-white rounded-lg px-6">
+    {% include "comment_form.html" %}
+    <div class="m-4">
+      {% include "comments.html" %}
+      <div></div>
+    </div>
+
+    {% endblock %} {% block title %} Post {% endblock %}
+  </div>
+</div>

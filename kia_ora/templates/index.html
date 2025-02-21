@@ -1,0 +1,42 @@
+{% extends "layout.html" %} 
+
+{% block content %}
+<div class="py-8">
+  <div class="mx-auto py-2">
+   
+    {% if user.is_authenticated %}
+    <div class="flex justify-center items-center px-4">
+      <div class="w-full max-w-lg bg-white p-4 rounded-lg shadow-md">
+      
+        <!-- Profile + Post Input -->
+        <div class="flex items-center space-x-3">
+
+            <a href="{% url 'Post_create' %}" class="w-full">
+                <button class="w-full text-left px-4 py-2 text-gray-700 bg-gray-100 rounded-full focus:outline-none">
+                    What's on your mind, {{ user.username | title }}?
+                </button>
+            </a>
+        </div>
+  
+        <!-- Action Buttons (Photo, Video, Feeling) -->
+        <div class="mt-3 flex justify-between">
+          <a href="{% url 'Post_create' %}?type=feeling" class="px-4 py-2 rounded-lg hover:bg-gray-200 transition">😀 Feeling/Activity</a>
+          <a href="{% url 'Post_create' %}?type=photo" class="px-4 py-2 rounded-lg hover:bg-gray-200 transition">📸 Photo</a>
+          <a href="{% url 'Post_create' %}?type=video" class="px-4 py-2 rounded-lg hover:bg-gray-200 transition">📽️ Video</a>
+      </div>
+      </div>
+    </div>
+    {% endif %}
+   
+
+    <!-- Post Card Section -->
+    <div class="flex flex-col items-center px-4 py-6">
+      {% include 'postCard.html' %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %} 
+
+{% block title %} Home {% endblock %}
