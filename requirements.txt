@@ -1,4 +1,8 @@
 Django==5.1.6
 asgiref
 sqlparse
+gunicorn
+whitenoise
+psycopg2-binary
+dj-database-url
 pillow==11.1.0
