@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-b3_q&gsvtun@(ryqu#hv$r2f+c0eq2p%8uyrxr7dp8&#&3q6)m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "kia-ora-dk3y.onrender.com",  # Add your Render domain here
+]
 
 
 # Application definition
