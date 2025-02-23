@@ -11,6 +11,7 @@ urlpatterns = [
     path("search/", views.PostSearch.as_view(), name="search"),
     path('toggle_like/<int:pk>/like/', views.ToggleLikeView.as_view(), name='toggle_like'),
     path("post_details/<int:pk>/", views.PostDetailView.as_view(), name="post_detail"),  
+    path("posts/", views.PostListView.as_view(), name="filter_posts"),
 
     
 ]

@@ -10,18 +10,23 @@
   </head>
   <body class="flex flex-col min-h-screen w-full bg-gray-100">
     {% include 'components/navbar.html'%}
+    <div class="flex flex-grow">
+      <!-- Sidebar (Left) -->
+      {% include 'components/sidenav.html'%}
 
-    <main class="container mx-auto flex-grow py-4">
-      <div id="alert-box" class="fixed top-50 right-4 z-50">
-        {% for message in messages %}
-        <div class="p-4 mb-2 rounded-lg shadow-lg text-orange-600 bg-gray-200">
-          {{ message }}
+      <!-- Main Content (Pushed Right to Avoid Overlap) -->
+      <main class="flex-grow p-2">
+        <div id="alert-box" class="fixed top-50 right-4 z-50">
+          {% for message in messages %}
+          <div class="p-4 mb-2 rounded-lg shadow-lg text-orange-600 bg-gray-200">
+            {{ message }}
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
 
-      {% block content %} {% endblock %}
-    </main>
+        {% block content %} {% endblock %}
+      </main>
+    </div>
 
     <footer class="w-full bg-gray-900 text-white py-4">
       {% include 'components/footer.html' %}

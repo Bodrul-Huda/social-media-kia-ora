@@ -10,6 +10,9 @@ from django.views import View
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Post
+
 
 
 # # Create your views here.
@@ -144,4 +147,34 @@ class PostSearch(ListView):
 
 
 
-      
+class PostListView(ListView):
+    model = Post
+    template_name = "index.html"
+    context_object_name = "posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(is_published=True)
+        sort_order = self.request.GET.get("sort_order", "newest")
+        media_type = self.request.GET.get("media_type", "all")
+        user = self.request.GET.get("user", "")
+
+        if media_type == "withImages":
+            queryset = queryset.filter(image__isnull=False)
+        elif media_type == "withoutImages":
+            queryset = queryset.filter(image__isnull=True)
+
+        if user:
+            queryset = queryset.filter(author__username__icontains=user)
+
+        if sort_order == "oldest":
+            queryset = queryset.order_by("created_at")
+        else:
+            queryset = queryset.order_by("-created_at")
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["users"] = User.objects.all()
+        return context

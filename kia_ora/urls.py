@@ -25,6 +25,7 @@ urlpatterns = [
     path('', views.home.as_view(), name='home'),
     path('user/', include('user.urls')),
     path('post/', include('post.urls')),
+    
 ]
 
 
